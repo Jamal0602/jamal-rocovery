@@ -1,8 +1,8 @@
 import { createClient } from "@supabase/supabase-js"
 import type { Database } from "@/types/supabase"
 
-const fallbackSupabaseUrl = "https://example.supabase.co"
-const fallbackSupabaseAnonKey = "public-anon-key"
+const fallbackSupabaseUrl = "https://fzjbaiggpjcvecyelzqf.supabase.co"
+const fallbackSupabaseAnonKey = "sb_publishable_KLMtL5U2DUjrp5A1JGFatA_E6Mp5jER"
 
 const getSupabaseConfig = (url?: string, key?: string) => ({
   url: url && url.length > 0 ? url : fallbackSupabaseUrl,
@@ -23,15 +23,26 @@ export const supabase = createClient<Database>(publicConfig.url, publicConfig.ke
 export const createServerSupabaseClient = () => {
   const serverConfig = getSupabaseConfig(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY)
   return createClient<Database>(serverConfig.url, serverConfig.key)
+// Create a single supabase client for the browser
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ""
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ""
+
+export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey)
+
+// Create a server-side client (for server components and API routes)
+export const createServerSupabaseClient = () => {
+  return createClient<Database>(process.env.SUPABASE_URL || "", process.env.SUPABASE_SERVICE_ROLE_KEY || "")
 }
 
 // Helper functions for authentication
 export async function signIn(password: string) {
+ 
   if (!isSupabaseConfigured) {
     return { success: false, error: "Supabase is not configured" }
   }
 
-  // For this application, we're using a simplified auth approach
+
+, we're using a simplified auth approach
   // Get the admin password from settings
   const { data, error } = await supabase.from("settings").select("value").eq("key", "admin").single()
 
