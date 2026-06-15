@@ -1,0 +1,7 @@
+# Ads.txt file for Jamal Asraf's Portfolio
+# Version 1.0.0
+# Last updated: 2023-03-29
+
+google.com, pub-1234567890123456, DIRECT, f08c47fec0942fa0
+cubiz.space, publisher-id, DIRECT, relationship-id
+
